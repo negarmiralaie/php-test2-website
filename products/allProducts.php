@@ -11,91 +11,15 @@
     $urlCategoryId = isset($_GET["categoryId"]) ? $_GET["categoryId"] : NULL;
     $urlFilterName = isset($_GET["filterName"]) ? $_GET["filterName"] : NULL;
 
-    echo $urlCategoryId;
-
-    // $sql = "SELECT p.*, f.*
-    // FROM product p
-    // LEFT JOIN productFilter pf ON p.id = pf.product_id
-    // LEFT JOIN filter f ON pf.filter_id = f.id
-    // WHERE (p.category_id = '$urlCategoryId')
-    //   AND (f.filterName = '$urlFilterName' OR '$urlFilterName' IS NULL);
-    // ";
-    
-    // $sql = "SELECT p.*, f.*
-    //       FROM product p
-    //       JOIN productFilter pf ON p.id = pf.product_id
-    //       LEFT JOIN filter f ON pf.filter_id = f.id
-    //       WHERE f.filterName = '$urlFilterName' AND p.category_id = '$urlCategoryId'";
-    
-    // if ($urlFilterName) {
-
-
-
-
-
-        // $sql = "SELECT product.* 
-        //         FROM product 
-        //         JOIN productFilter ON product.id = productFilter.product_id
-        //         JOIN filter ON productFilter.filter_id = filter.id
-        //         WHERE product.category_id = $urlCategoryId"; //Get products based on the category_id that user chose and is sent in the URL... 
-
-
-    // $sql = "SELECT * 
-    //         FROM product 
-    //         JOIN productFilter ON product.id = productFilter.product_id
-    //         JOIN filter ON productFilter.filter_id = filter.id
-    //         WHERE product.category_id = $urlCategoryId";
-
-    // $sql = "SELECT p.id as product_id, p.*, pf.*
-    //         FROM product p
-    //         LEFT JOIN productFilter pf ON p.id = pf.product_id
-    //         WHERE p.category_id = $urlCategoryId";
-
+    // echo $urlCategoryId;
 
     $sql = "SELECT p.id as product_id, p.*, pf.*
-        FROM product p
-        LEFT JOIN productFilter pf ON p.id = pf.product_id
-        WHERE p.category_id = $urlCategoryId";
-
-// ONLY DOES NOT WORK WITH FILTERS....
-// $sql = "SELECT *
-// FROM product p
-// -- JOIN productFilter pf ON p.id = pf.product_id;
-// WHERE p.category_id = $urlCategoryId";
-
-
-
-
-
-
-
-    // } else {
-        // $sql = "SELECT p.*, f.*
-        //     FROM product p
-        //     JOIN productFilter pf ON p.id = pf.product_id
-        //     JOIN filter f ON pf.filter_id = f.id
-        //     WHERE p.category_id = '$urlCategoryId'";
-    // }
-
-    // $sql = "SELECT p.*, 
-    // IFNULL(f.column1, '') as column1,
-    // IFNULL(f.column2, '') as column2,
-    // IFNULL(f.column3, '') as column3
-    // FROM product p
-    // LEFT JOIN productFilter pf ON p.id = pf.product_id AND f.filterName = IFNULL('$urlFilterName', f.filterName)
-    // LEFT JOIN filter f ON pf.filter_id = f.id
-    // WHERE p.category_id = '$urlCategoryId'";
-
-
-
-
-
-    // $sql = "SELECT p.*, f.*
-    //     FROM product p
-    //     LEFT JOIN productFilter pf ON p.id = pf.product_id
-    //     LEFT JOIN filter f ON pf.filter_id = f.id AND (f.filterName = '$urlFilterName' OR '$urlFilterName' IS NULL OR '$urlFilterName' = '')
-    //     WHERE p.category_id = '$urlCategoryId' AND f.filterName = 'urlFilterName'";
-
+    FROM (
+        SELECT * FROM product
+        WHERE category_id = $urlCategoryId
+    ) p
+    LEFT JOIN (productFilter pf JOIN filter f ON pf.filter_id = f.id) ON p.id = pf.product_id 
+    ";
 
     $productsArray = mysqli_query($conn, $sql);
 
