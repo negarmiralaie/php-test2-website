@@ -13,12 +13,29 @@
 
     // echo $urlCategoryId;
 
+    // $sql = "SELECT p.id as product_id, p.*, pf.*
+    // FROM (
+    //     SELECT * FROM product
+    //     WHERE category_id = $urlCategoryId
+    // ) p
+    // JOIN productFilter pf ON p.id = pf.product_id
+    // JOIN filter f ON pf.filter_id = f.id
+    // -- WHERE f.filterName = $urlFilterName
+    // GROUP BY p.id
+    // ";
+
     $sql = "SELECT p.id as product_id, p.*, pf.*
-    FROM (
-        SELECT * FROM product
-        WHERE category_id = $urlCategoryId
-    ) p
-    LEFT JOIN (productFilter pf JOIN filter f ON pf.filter_id = f.id) ON p.id = pf.product_id 
+            FROM (
+                SELECT * FROM product
+                WHERE category_id = $urlCategoryId
+            ) p
+            JOIN productFilter pf ON p.id = pf.product_id
+            JOIN (
+                SELECT * 
+                FROM filter  
+            ) f ON pf.filter_id = f.id
+                -- WHERE filterName = $urlFilterName
+            GROUP BY p.id
     ";
 
     $productsArray = mysqli_query($conn, $sql);
