@@ -30,7 +30,15 @@
                     http_response_code(404);
                     require __DIR__ . '/views/404.php';
                     break;
-            }
+            };
+
+            // if (strpos($url, 'categoryId') !== false) {
+
+            // }
+
+            // if (strpos($url, 'filterName') !== false) {
+                
+            // }
 
 ?>
     </main>
