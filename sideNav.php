@@ -23,9 +23,6 @@
 
     $urlCategoryId = isset($_GET["categoryId"]) ? $_GET["categoryId"] : null;
 
-    // ******************************* CHANGE ABOVE AND BELOW CODE TO FILTER ALL PRODUCTS IN A PAGE
-
-    // echo 'urlCategoryId'.$urlCategoryId;
     $categorySql = "SELECT categoryName FROM category WHERE id = $urlCategoryId"; 
     $result2 = mysqli_query($conn, $categorySql);
     
@@ -83,12 +80,12 @@
       
       // Send an AJAX request to the server with the updated parameters.
       $.ajax({
-  url: 'products.php',
-  type: 'GET',
-  data: { [$(this).attr('name')]: $(this).val() },
-  success: function(response) {
-    // Handle the response.
-  }
+        url: 'products.php',
+        type: 'GET',
+        data: { [$(this).attr('name')]: $(this).val() },
+        success: function(response) {
+            // Handle the response.
+        }
 });
 
     } else {
