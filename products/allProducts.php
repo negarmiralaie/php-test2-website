@@ -35,6 +35,7 @@
         <section class='all-products-container'>
     <?php
 
+
 while ($product = mysqli_fetch_assoc($productsArray)) {
     $id = $product['product_id'];
     ?>
