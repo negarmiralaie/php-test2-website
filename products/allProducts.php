@@ -9,20 +9,8 @@
     include(__DIR__ . '/../connect.php');
 
     $urlCategoryId = isset($_GET["categoryId"]) ? $_GET["categoryId"] : NULL;
-    $urlFilterName = isset($_GET["filterName"]) ? $_GET["filterName"] : NULL;
-
-    // echo $urlCategoryId;
-
-    // $sql = "SELECT p.id as product_id, p.*, pf.*
-    // FROM (
-    //     SELECT * FROM product
-    //     WHERE category_id = $urlCategoryId
-    // ) p
-    // JOIN productFilter pf ON p.id = pf.product_id
-    // JOIN filter f ON pf.filter_id = f.id
-    // -- WHERE f.filterName = $urlFilterName
-    // GROUP BY p.id
-    // ";
+    $urlFilterName = isset($_GET['filterName']) ? $_GET["filterName"] : NULL;
+    echo 'urlFilterName'.$urlFilterName;
 
     $sql = "SELECT p.id as product_id, p.*, pf.*
             FROM (
@@ -34,7 +22,7 @@
                 SELECT * 
                 FROM filter  
             ) f ON pf.filter_id = f.id
-                -- WHERE filterName = $urlFilterName
+                WHERE filterName = '$urlFilterName'
             GROUP BY p.id
     ";
 
@@ -50,7 +38,6 @@ while ($product = mysqli_fetch_assoc($productsArray)) {
     <a href="productDetails.php?id=<?= $id ?>.php">
             <section class="card" style="width: 18rem;">
                 <section class="card-body">
-
                     <?php
                         for($i = 0; $i < $product['rate']; $i++) {
                             ?>
@@ -81,27 +68,3 @@ while ($product = mysqli_fetch_assoc($productsArray)) {
 <?php 
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-// If you put this inside a function and set it to onChange in inputs, eventlistener will fire everytime and multiple eventlistener will be set on each input
-const checkboxes = document.querySelectorAll('[name=filter-input]');
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
-            console.log(222);
-            let url = new URL(window.location.href);
-            let oldUrl = window.location.href;
-            let paramName = 'filterName';
-            let paramValue = this.value;
-
-            if (this.checked) {
-                console.log('this.value', this.value)
-                url.searchParams.append(paramName, paramValue);
-            }  else {
-                console.log('unchecked');
-                url.searchParams.delete(paramName);
-            }
-
-            window.history.replaceState(null, null, url);
-            window.location.reload();
-        });
-});
-</script>
