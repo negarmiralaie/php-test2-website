@@ -13,18 +13,21 @@
     echo 'urlFilterName'.$urlFilterName;
 
     $sql = "SELECT p.id as product_id, p.*, pf.*
-            FROM (
-                SELECT * FROM product
-                WHERE category_id = $urlCategoryId
-            ) p
-            JOIN productFilter pf ON p.id = pf.product_id
-            JOIN (
-                SELECT * 
-                FROM filter  
-            ) f ON pf.filter_id = f.id
-                WHERE filterName = '$urlFilterName'
-            GROUP BY p.id
-    ";
+        FROM (
+            SELECT * FROM product
+            WHERE category_id = '$urlCategoryId'
+        ) p
+        JOIN productFilter pf ON p.id = pf.product_id
+        JOIN (
+            SELECT * 
+            FROM filter  
+        ) f ON pf.filter_id = f.id";
+        
+    if ($urlFilterName != null) {
+        $sql .= " WHERE filterName = '$urlFilterName'";
+    }
+    $sql .= " GROUP BY p.id";
+
 
     $productsArray = mysqli_query($conn, $sql);
 
