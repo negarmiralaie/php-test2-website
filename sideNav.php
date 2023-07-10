@@ -36,21 +36,21 @@
     echo "<section class='side-nav-products-wrapper'>"; // ** END TAG FOR THIS WRAPPER, WILL BE AT THE END OF EACH PAGE
     echo "<form action='' method='GET' class='side-nav-form'>";
     foreach ($data as $category => $subCategories) {
-        if ($urlCategoryName == $category) {
-            echo "<h2>$category</h2>";
-            
-            echo "<section>";
-            foreach ($subCategories as $subCategory => $filterNames) {
-                echo "<b>$subCategory</b>";
-                foreach ($filterNames as $filterName) {
-                    echo '<section class="filter-names-wrapper">';
-                    echo '<input class="myCheck" type="checkbox" name="filterName" value="' . $filterName . '" id="' . $filterName . '"/>';
-                    echo "<label for=$filterName>$filterName</label>";
-                    echo '</section>';
-                }
-            }
-            echo "</section>";
+      if ($urlCategoryName == $category) {
+        echo "<h2>$category</h2>";
+
+        echo "<section>";
+        foreach ($subCategories as $subCategory => $filterNames) {
+          echo "<b>$subCategory</b>";
+          foreach ($filterNames as $filterName) {
+            echo '<section class="filter-names-wrapper">';
+            echo '<input class="myCheck" type="checkbox" name="filterName[]" value="' . $filterName . '" id="' . $filterName . '"/>';
+            echo "<label for=$filterName>$filterName</label>";
+            echo '</section>';
+          }
         }
+        echo "</section>";
+      }
     }
     echo "</form>";
 
@@ -66,7 +66,7 @@
     if ($(this).is(':checked')) {
       // Checkbox is checked.
 
-      console.log('here')
+      document.cookie = "earch[" + this.value + "]=" + this.checked + "; expires=Thu, 18 Dec 2018 12:00:00 UTC; path=/";
       var currentUrl = new URL(window.location.href);
         var newParamName = $(this).attr('name');
         var newParamValue = $(this).val();
@@ -77,14 +77,13 @@
         window.history.pushState({ path: newUrl }, '', newUrl);
         window.location.reload();
 
-      
       // Send an AJAX request to the server with the updated parameters.
       $.ajax({
         url: 'products.php',
         type: 'GET',
         data: { [$(this).attr('name')]: $(this).val() },
         success: function(response) {
-            // Handle the response.
+          // Handle the response.
         }
 });
 
